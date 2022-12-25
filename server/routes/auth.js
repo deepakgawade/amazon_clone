@@ -1,15 +1,59 @@
-const express =require('express');
+const { json } = require("express");
+const express = require("express");
+const User = require("../models/user_model");
 
-const authRouter=express.Router();
-authRouter.get('/myroute',(req,res)=>{
-    res.json({myroute:"Panaji"});
+const authRouter = express.Router();
+
+authRouter.post("/api/signup", async (req, res) => {
+  console.log("post request started");
+
+  try {
+    const { fullName, email, password } = req.body;
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ msg: "User already exist with same email" });
+    }
+
+    let user = new User({
+      fullName,
+      email,
+      password,
+    });
+    try {
+      user = await user.save();
+      return res.json(user);
+
+      
+    } catch (e) {
+      console.log(e)
+
+      return res.status(500).json({error:e.message});
+
+    }
+ 
+  
+    
+  } catch (e) {
+
+    return res.status(500).status({msg:"Request failed"});
+    
+  }
+
+  //encrypt password,
+  //save in db,
+  //return data to user.
 });
 
-authRouter.post('/api/signup',(req,res)=>{
-    //get data from client
-    //validate data,
-    //encrypt password,
-    //save in db, 
-})
+authRouter.get("/hello-world", (req, res) => {
+  res.json({ hello: "hello" });
+});
 
-module.exports=authRouter;
+authRouter.get("/", (req, res) => {
+  res.json({ name: "deepak" });
+});
+
+module.exports = authRouter;
