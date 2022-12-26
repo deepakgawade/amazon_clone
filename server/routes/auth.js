@@ -5,7 +5,6 @@ const User = require("../models/user_model");
 const authRouter = express.Router();
 
 authRouter.post("/api/signup", async (req, res) => {
-  console.log("post request started");
 
   try {
     const { fullName, email, password } = req.body;
@@ -29,7 +28,6 @@ authRouter.post("/api/signup", async (req, res) => {
 
       
     } catch (e) {
-      console.log(e)
 
       return res.status(500).json({error:e.message});
 
