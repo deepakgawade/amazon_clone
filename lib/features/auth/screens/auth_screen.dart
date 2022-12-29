@@ -1,6 +1,7 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/custom_textfield.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signin, signup }
@@ -23,6 +24,23 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _nameController = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  void signUpUser() {
+    authService.signUpUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+        name: _nameController.text);
+  }
+
+  void signInUser() {
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +78,42 @@ class _AuthScreenState extends State<AuthScreen> {
                   key: _signUpFormKey,
                   child: Container(
                     color: GlobalVariables.backgroundColor,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         CustomTextField(
-                            controller: _nameController, hintText: "Name"),
+                            controller: _nameController,
+                            hintText: "Name",
+                            validator: (value) {
+                              if (value!.length > 5) {
+                                return null;
+                              }
+                              return "Enter valid name";
+                            }),
                         CustomTextField(
-                            controller: _emailController, hintText: "Email"),
+                            validator: (value) {
+                              if (value!.length > 5) {
+                                return null;
+                              }
+                              return "Enter valid email";
+                            },
+                            controller: _emailController,
+                            hintText: "Email"),
                         CustomTextField(
+                          isObscure: true,
                           controller: _passwordController,
                           hintText: "Password",
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        CustomButton(onPressed: () {}, text: "Sign Up")
+                        CustomButton(
+                            onPressed: () {
+                              if (_signUpFormKey.currentState!.validate()) {
+                                signUpUser();
+                              }
+                            },
+                            text: "Sign Up")
                       ],
                     ),
                   ),
@@ -103,7 +142,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   key: _signInFormKey,
                   child: Container(
                     color: GlobalVariables.backgroundColor,
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: Column(
                       children: [
                         CustomTextField(
@@ -115,7 +154,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        CustomButton(onPressed: () {}, text: "Sign-In")
+                        CustomButton(
+                            onPressed: () {
+                              if (_signInFormKey.currentState!.validate()) {
+                                signInUser();
+                              }
+                            },
+                            text: "Sign-In")
                       ],
                     ),
                   ),

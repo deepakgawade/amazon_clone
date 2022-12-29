@@ -1,0 +1,104 @@
+import 'dart:developer';
+
+import 'package:amazon_clone/constants/error_handling.dart';
+import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/constants/utils.dart';
+import 'package:amazon_clone/features/auth/model/user_model/user_model.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+
+class AuthService {
+  //sign up user
+  void signUpUser(
+      {required BuildContext context,
+      required String email,
+      required String password,
+      required String name}) async {
+    try {
+      User user = User(
+          id: '',
+          fullName: name,
+          email: email,
+          password: password,
+          address: '',
+          type: '');
+
+      var response = await Dio().post('$url/api/signup',
+          options: Options(headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          }),
+          data: user.toJson());
+
+      dioErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showSnackBar(
+                context, "Account created!Sign in with same credentials");
+          });
+    } on DioError catch (e) {
+      if (e.response != null) {
+        dioErrorHandle(
+            response: e.response!,
+            context: context,
+            onSuccess: () {
+              showSnackBar(
+                  context, "Account created!Sign in with same credentials");
+            });
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        log('${e.requestOptions}');
+        log(e.message);
+        showSnackBar(context, e.message);
+      }
+
+      log('$e');
+    }
+  }
+
+  void signInUser({
+    required BuildContext context,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      User user = User(
+          id: '',
+          fullName: '',
+          email: email,
+          password: password,
+          address: '',
+          type: '');
+
+      var response = await Dio().post('$url/api/signin',
+          options: Options(headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          }),
+          data: user.toJson());
+
+      dioErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showSnackBar(context, "Logged in successfully");
+          });
+    } on DioError catch (e) {
+      if (e.response != null) {
+        dioErrorHandle(
+            response: e.response!,
+            context: context,
+            onSuccess: () {
+              showSnackBar(
+                  context, "Account created!Sign in with same credentials");
+            });
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        log('${e.requestOptions}');
+        log(e.message);
+        showSnackBar(context, e.message);
+      }
+
+      log('$e');
+    }
+  }
+}

@@ -12,7 +12,7 @@ const authRouter=require('./routes/auth');
 
 //init
 const app=express();
-const PORT=3000;
+const PORT=8080;
 
 //middleware
 app.use(express.json());
@@ -25,7 +25,7 @@ mongoose.set('strictQuery', false);
 
 mongoose.connect(DB).then(()=>{console.log("connection succcesfull")}).catch((e)=>{console.log(e)});
 
-app.listen(PORT,()=>{
+app.listen(PORT,"0.0.0.0",()=>{
     console.log(`onnetcted to port ${PORT} hello`);
 });//localhost or else device port on internet you want to connect.
 
