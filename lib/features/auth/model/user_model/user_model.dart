@@ -16,6 +16,8 @@ class User with _$User {
     required String password,
     required String address,
     required String type,
+    required String token,
+
     //toekn can be added
   }) = _User;
 

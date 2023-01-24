@@ -26,6 +26,7 @@ mixin _$User {
   String get password => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $UserCopyWith<$Res> {
       String email,
       String password,
       String address,
-      String type});
+      String type,
+      String token});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? password = null,
     Object? address = null,
     Object? type = null,
+    Object? token = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -91,6 +94,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -107,7 +114,8 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String email,
       String password,
       String address,
-      String type});
+      String type,
+      String token});
 }
 
 /// @nodoc
@@ -125,6 +133,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? password = null,
     Object? address = null,
     Object? type = null,
+    Object? token = null,
   }) {
     return _then(_$_User(
       id: null == id
@@ -151,6 +160,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       required this.email,
       required this.password,
       required this.address,
-      required this.type});
+      required this.type,
+      required this.token});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -180,10 +194,12 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   final String address;
   @override
   final String type;
+  @override
+  final String token;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(id: $id, fullName: $fullName, email: $email, password: $password, address: $address, type: $type)';
+    return 'User(id: $id, fullName: $fullName, email: $email, password: $password, address: $address, type: $type, token: $token)';
   }
 
   @override
@@ -196,7 +212,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('address', address))
-      ..add(DiagnosticsProperty('type', type));
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('token', token));
   }
 
   @override
@@ -211,13 +228,14 @@ class _$_User with DiagnosticableTreeMixin implements _User {
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, fullName, email, password, address, type);
+  int get hashCode => Object.hash(
+      runtimeType, id, fullName, email, password, address, type, token);
 
   @JsonKey(ignore: true)
   @override
@@ -240,7 +258,8 @@ abstract class _User implements User {
       required final String email,
       required final String password,
       required final String address,
-      required final String type}) = _$_User;
+      required final String type,
+      required final String token}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -256,6 +275,8 @@ abstract class _User implements User {
   String get address;
   @override
   String get type;
+  @override
+  String get token;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

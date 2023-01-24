@@ -4,8 +4,13 @@ import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/auth/model/user_model/user_model.dart';
+import 'package:amazon_clone/features/home/screens/home_screen.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   //sign up user
@@ -21,7 +26,7 @@ class AuthService {
           email: email,
           password: password,
           address: '',
-          type: '');
+          type: '',token: '');
 
       var response = await Dio().post('$url/api/signup',
           options: Options(headers: <String, String>{
@@ -68,7 +73,7 @@ class AuthService {
           email: email,
           password: password,
           address: '',
-          type: '');
+          type: '',token: '');
 
       var response = await Dio().post('$url/api/signin',
           options: Options(headers: <String, String>{
@@ -79,8 +84,18 @@ class AuthService {
       dioErrorHandle(
           response: response,
           context: context,
-          onSuccess: () {
-            showSnackBar(context, "Logged in successfully");
+          onSuccess: () async {
+
+            SharedPreferences pref=await SharedPreferences.getInstance();
+            var data =User.fromJson(response.data);
+
+
+          // ignore: use_build_context_synchronously
+          Provider.of<UserProvider>(context,listen: false).setuser=response;
+                 await  pref.setString('x-auth-token',data.token);
+                 Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
+
+           
           });
     } on DioError catch (e) {
       if (e.response != null) {
