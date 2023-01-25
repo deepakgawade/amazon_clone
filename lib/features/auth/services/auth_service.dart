@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:amazon_clone/constants/error_handling.dart';
@@ -26,7 +27,8 @@ class AuthService {
           email: email,
           password: password,
           address: '',
-          type: '',token: '');
+          type: '',
+          token: '');
 
       var response = await Dio().post('$url/api/signup',
           options: Options(headers: <String, String>{
@@ -73,7 +75,8 @@ class AuthService {
           email: email,
           password: password,
           address: '',
-          type: '',token: '');
+          type: '',
+          token: '');
 
       var response = await Dio().post('$url/api/signin',
           options: Options(headers: <String, String>{
@@ -85,17 +88,15 @@ class AuthService {
           response: response,
           context: context,
           onSuccess: () async {
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            var data = User.fromJson(response.data);
 
-            SharedPreferences pref=await SharedPreferences.getInstance();
-            var data =User.fromJson(response.data);
-
-
-          // ignore: use_build_context_synchronously
-          Provider.of<UserProvider>(context,listen: false).setuser=response;
-                 await  pref.setString('x-auth-token',data.token);
-                 Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
-
-           
+            // ignore: use_build_context_synchronously
+            Provider.of<UserProvider>(context, listen: false).setuser =
+                response;
+            await pref.setString('x-auth-token', data.token);
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreen.routeName, (route) => false);
           });
     } on DioError catch (e) {
       if (e.response != null) {
@@ -114,6 +115,55 @@ class AuthService {
       }
 
       log('$e');
+    }
+  }
+
+  void getUserData({required BuildContext context}) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+      }
+
+
+      var tokenRes = await Dio().post('$url/tokenIsValid',
+          options: Options(headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          }));
+
+      var response = jsonDecode(tokenRes.data!);
+
+      if (response == true) {
+        var response = await Dio().get('$url/',
+            options: Options(headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': token
+            }));
+
+          var userProvider=Provider.of<UserProvider>(context,listen: false);
+          userProvider.setuser=response;
+      }
+
+      dioErrorHandle(
+          response: response, context: context, onSuccess: () async {});
+    } on DioError catch (e) {
+      if (e.response != null) {
+        dioErrorHandle(
+            response: e.response!,
+            context: context,
+            onSuccess: () {
+              showSnackBar(
+                  context, "Account created!Sign in with same credentials");
+            });
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        log('${e.requestOptions}');
+        log(e.message);
+        showSnackBar(context, e.message);
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user_model");
+const auth=require("../middlewares/auth")
 
 const authRouter = express.Router();
 
@@ -25,6 +26,7 @@ authRouter.post("/api/signup", async (req, res) => {
       email,
       password: hasPassword,
     });
+
     try {
       user = await user.save();
       return res.json(user);
@@ -52,21 +54,51 @@ authRouter.post("/api/signin", async (req, res) => {
       return res.status(400).json({ msg: "Incorrect password" });
     }
 
-    const token=jwt.sign({ id: user._id }, "passwordKey2");
-    console.log(user._doc);
-   return res.status(200).json({token, ...user._doc});
+    const token = jwt.sign({ id: user._id }, "passwordKey2");
 
+    console.log(user._doc);
+
+    return res.status(200).json({ token, ...user._doc });
   } catch (e) {
-   return res.status(500).json({ error: e.message });
+    return res.status(500).json({ error: e.message });
   }
 });
 
-authRouter.get("/hello-world", (req, res) => {
-  res.json({ hello: "hello" });
+authRouter.post("/tokenIsValid", async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if (!token) return res.json(false);
+    const isVerified = jwt.verify(token, "passwordKey2");
+    if (!isVerified) return res.json(false);
+    const user = await User.findById(isVerified.id);
+    if(!user)return res.json(false);
+    return res.json(true);
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
 });
 
-authRouter.get("/", (req, res) => {
-  res.json({ name: "deepak" });
+
+
+
+authRouter.get("/",auth,async(req,res)=>{
+
+  try{
+
+    const user=User.findById(req.user);
+    console.log(req.user);
+   return  res.json({...user._doc,token:req.token});
+
+  }catch(e){
+    return res.status(500).json({error:e.message});
+  }
+
+})
+
+authRouter.get("/hello-world", (req, res) => {
+  res.json({ hello: "hello Jayant" });
 });
+
+
 
 module.exports = authRouter;
