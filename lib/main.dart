@@ -7,9 +7,12 @@ import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:amazon_clone/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [ChangeNotifierProvider(create: ((context) => UserProvider()))],child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: ((context) => UserProvider()))
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -22,29 +25,36 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
 
-  final AuthService authService=AuthService();
+  final AuthService authService = AuthService();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     authService.getUserData(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        onGenerateRoute: (settings) => generateRoute(settings),
-        title: 'Amazon Clone',
-        theme: ThemeData(
-          scaffoldBackgroundColor: GlobalVariables.greyBackgroundCOlor,
-          colorScheme: const ColorScheme.light(
-            primary: GlobalVariables.secondaryColor,
+    return Sizer(builder: (context, orientation, deviceType) {
+      return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: (settings) => generateRoute(settings),
+          title: 'Amazon Clone',
+          theme: ThemeData(
+            scaffoldBackgroundColor: GlobalVariables.greyBackgroundCOlor,
+            colorScheme: const ColorScheme.light(
+              primary: GlobalVariables.secondaryColor,
+            ),
+            appBarTheme: const AppBarTheme(
+              iconTheme: IconThemeData(color: Colors.black),
+              elevation: 0,
+            ),
+            textTheme: TextTheme(
+              displayLarge: TextStyle(fontSize: 22, color: Colors.black),
+            ),
           ),
-          appBarTheme: const AppBarTheme(
-            iconTheme: IconThemeData(color: Colors.black),
-            elevation: 0,
-          ),
-        ),
-        home: Provider.of<UserProvider>(context).user.token.isNotEmpty? const BottomBar():const AuthScreen());
+          home: Provider.of<UserProvider>(context).user.token.isNotEmpty
+              ? const BottomBar()
+              : const AuthScreen());
+    });
   }
 }
