@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:amazon_clone/common/widgets/bottom_bar.dart';
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
@@ -96,7 +97,7 @@ class AuthService {
                 response;
             await pref.setString('x-auth-token', data.token);
             Navigator.pushNamedAndRemoveUntil(
-                context, HomeScreen.routeName, (route) => false);
+                context, BottomBar.routeName, (route) => false);
           });
     } on DioError catch (e) {
       if (e.response != null) {
@@ -134,7 +135,7 @@ class AuthService {
             'x-auth-token': token!
           }));
 
-      var response = jsonDecode(tokenRes.data!);
+      var response = jsonDecode(tokenRes.toString())["result"];
 
       if (response == true) {
         var response = await Dio().get('$url/',
@@ -147,8 +148,7 @@ class AuthService {
           userProvider.setuser=response;
       }
 
-      dioErrorHandle(
-          response: response, context: context, onSuccess: () async {});
+
     } on DioError catch (e) {
       if (e.response != null) {
         dioErrorHandle(

@@ -67,25 +67,29 @@ authRouter.post("/api/signin", async (req, res) => {
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    if (!token) return res.json(false);
+    if (!token) return res.json({"result":false});
     const isVerified = jwt.verify(token, "passwordKey2");
     if (!isVerified) return res.json(false);
     const user = await User.findById(isVerified.id);
-    if(!user)return res.json(false);
-    return res.json(true);
+    if(!user)return res.json({"result":false});
+    return res.json({"result":true});
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
 });
 
-
+//63cf811c64ce2b9a499c8c9d
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2Y4MTFjNjRjZTJiOWE0OTljOGM5ZCIsImlhdCI6MTY3NDYyMTcxNX0.xodeggbmMCs4QslEL2Vh335XGyRmWx9dsuglRHgT71c
 
 
 authRouter.get("/",auth,async(req,res)=>{
 
   try{
 
-    const user=User.findById(req.user);
+    const user= await User.findById(
+      req.user
+      );
+    console.log(user);
     console.log(req.user);
    return  res.json({...user._doc,token:req.token});
 

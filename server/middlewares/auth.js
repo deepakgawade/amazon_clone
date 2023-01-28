@@ -8,7 +8,7 @@ const auth=async(req,res,next)=>{
         if(!token)return res.status(401).json({msg:"No token found, access denied"});
     const verified= jwt.verify(token,"passwordKey2");
         if(!verified)return res.status(401).json({msg:"token verification failed, authorization denied."});
-        req.user=verified.indexOf;
+        req.user=verified.id;
         req.token=token;
         next();
 
