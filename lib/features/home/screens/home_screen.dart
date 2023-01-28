@@ -1,8 +1,8 @@
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home_screen';
@@ -22,38 +22,67 @@ class HomeScreen extends StatelessWidget {
             ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
                   child: Container(
-                    height: 1.5.h,
-                    child: TextFormField(),
+                    height: 42,
+                    margin: const EdgeInsets.only(left: 10, top: 10),
+                    child: Material(
+                        borderRadius: BorderRadius.circular(8),
+                        elevation: 4,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.only(top: 10),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide.none,
+                                borderRadius: BorderRadius.circular(8)),
+                            enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black38, width: 1),
+                                borderRadius: BorderRadius.circular(8)),
+                            hintText: 'Search Amazon.in',
+                            hintStyle: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 17),
+                            prefixIcon: InkWell(
+                              onTap: () {},
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 6),
+                                child: Icon(
+                                  Icons.search,
+                                  color: Colors.black,
+                                  size: 23,
+                                ),
+                              ),
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                          ),
+                        )),
                   ),
                 ),
                 Container(
-                  alignment: Alignment.topRight,
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.notifications_outlined,
+                    height: 42,
+                    alignment: Alignment.topRight,
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: const Center(
+                      child: Icon(
+                        Icons.mic,
+                        size: 23,
                         color: Colors.black,
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Icon(
-                        Icons.search_outlined,
-                        color: Colors.black,
-                      )
-                    ],
-                  ),
-                )
+                    ))
               ],
             ),
           ),
-          preferredSize: const Size.fromHeight(80)),
-      body: Center(
-        child: Text('${user.token}'),
+          preferredSize: const Size.fromHeight(70)),
+      body: Column(
+        children: [
+          const AddressBox(),
+          Center(
+            child: Text('${user.token}'),
+          ),
+        ],
       ),
     );
   }
