@@ -14,7 +14,7 @@ class _CarouselImagesState extends State<CarouselImages> {
   List<Widget> pages = [
     for (int i = 0; i < GlobalVariables.carouselImages.length; i++)
       Image.network(
-        '${GlobalVariables.carouselImages[i]}',
+        GlobalVariables.carouselImages[i],
         fit: BoxFit.cover,
         //width: 100.w,
         height: 20.h,

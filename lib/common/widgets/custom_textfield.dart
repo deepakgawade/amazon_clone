@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
@@ -8,20 +6,28 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       Key? key,
       this.validator,
-      this.isObscure = false})
+      this.isObscure = false,
+      this.maxlines = 1})
       : super(key: key);
   final TextEditingController controller;
   final String hintText;
   final String? Function(String?)? validator;
   final bool isObscure;
+  final int? maxlines;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        maxLines: maxlines,
         obscureText: isObscure,
-        validator: validator,
+        validator: (val) {
+          if (val == null || val.isEmpty) {
+            return 'Enter your $hintText';
+          }
+          return null;
+        },
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,

@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user_model");
-const auth=require("../middlewares/auth")
+const auth = require("../middlewares/auth");
 
 const authRouter = express.Router();
 
@@ -67,42 +67,30 @@ authRouter.post("/api/signin", async (req, res) => {
 authRouter.post("/tokenIsValid", async (req, res) => {
   try {
     const token = req.header("x-auth-token");
-    if (!token) return res.json({"result":false});
+    if (!token) return res.json({ result: false });
     const isVerified = jwt.verify(token, "passwordKey2");
     if (!isVerified) return res.json(false);
     const user = await User.findById(isVerified.id);
-    if(!user)return res.json({"result":false});
-    return res.json({"result":true});
+    if (!user) return res.json({ result: false });
+    return res.json({ result: true });
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
 });
 
-//63cf811c64ce2b9a499c8c9d
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2Y4MTFjNjRjZTJiOWE0OTljOGM5ZCIsImlhdCI6MTY3NDYyMTcxNX0.xodeggbmMCs4QslEL2Vh335XGyRmWx9dsuglRHgT71c
-
-
-authRouter.get("/",auth,async(req,res)=>{
-
-  try{
-
-    const user= await User.findById(
-      req.user
-      );
+authRouter.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user);
     console.log(user);
     console.log(req.user);
-   return  res.json({...user._doc,token:req.token});
-
-  }catch(e){
-    return res.status(500).json({error:e.message});
+    return res.json({ ...user._doc, token: req.token });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
   }
-
-})
+});
 
 authRouter.get("/hello-world", (req, res) => {
   res.json({ hello: "hello Jayant" });
 });
-
-
 
 module.exports = authRouter;

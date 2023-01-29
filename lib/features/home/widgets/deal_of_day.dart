@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/basic.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:flutter/material.dart';
+
 import 'package:sizer/sizer.dart';
 
 class DealOfDay extends StatelessWidget {
@@ -83,6 +82,14 @@ class DealOfDay extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 15).copyWith(left: 15),
+          child: Text("See all deals",
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  color: GlobalVariables.selectedNavBarColor)),
         )
       ],
     );

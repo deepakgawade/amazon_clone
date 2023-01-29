@@ -6,7 +6,6 @@ import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/auth/model/user_model/user_model.dart';
-import 'package:amazon_clone/features/home/screens/home_screen.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -128,7 +127,6 @@ class AuthService {
         prefs.setString('x-auth-token', '');
       }
 
-
       var tokenRes = await Dio().post('$url/tokenIsValid',
           options: Options(headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
@@ -144,11 +142,9 @@ class AuthService {
               'x-auth-token': token
             }));
 
-          var userProvider=Provider.of<UserProvider>(context,listen: false);
-          userProvider.setuser=response;
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setuser = response;
       }
-
-
     } on DioError catch (e) {
       if (e.response != null) {
         dioErrorHandle(
