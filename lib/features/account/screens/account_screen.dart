@@ -23,7 +23,7 @@ class AccountScreen extends StatelessWidget {
             SizedBox(
               height: 1.h,
             ),
-            const Orders()
+            const Orders(),
           ],
         ),
         appBar: PreferredSize(

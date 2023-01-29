@@ -48,8 +48,9 @@ class _MyAppState extends State<MyApp> {
               iconTheme: IconThemeData(color: Colors.black),
               elevation: 0,
             ),
-            textTheme: TextTheme(
+            textTheme: const TextTheme(
               displayLarge: TextStyle(fontSize: 22, color: Colors.black),
+              labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
             ),
           ),
           home: Provider.of<UserProvider>(context).user.token.isNotEmpty

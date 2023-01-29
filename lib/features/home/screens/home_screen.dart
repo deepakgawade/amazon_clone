@@ -1,8 +1,9 @@
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
-import 'package:amazon_clone/providers/user_provider.dart';
+import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
+import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
+import 'package:amazon_clone/features/home/widgets/top_category.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home_screen';
@@ -10,8 +11,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-
     return Scaffold(
       appBar: PreferredSize(
           // ignore: sort_child_properties_last
@@ -76,13 +75,21 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           preferredSize: const Size.fromHeight(70)),
-      body: Column(
-        children: [
-          const AddressBox(),
-          Center(
-            child: Text('${user.token}'),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            AddressBox(),
+            SizedBox(
+              height: 10,
+            ),
+            TopCategories(),
+            SizedBox(
+              height: 10,
+            ),
+            CarouselImages(),
+            DealOfDay()
+          ],
+        ),
       ),
     );
   }
