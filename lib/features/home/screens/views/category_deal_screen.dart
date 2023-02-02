@@ -1,4 +1,7 @@
+import 'package:amazon_clone/common/widgets/loader_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/admin/models/product_model.dart';
+import 'package:amazon_clone/features/home/services/home_services.dart';
 import 'package:flutter/material.dart';
 
 class CategoryDealScreen extends StatefulWidget {
@@ -11,6 +14,28 @@ class CategoryDealScreen extends StatefulWidget {
 }
 
 class _CategoryDealScreenState extends State<CategoryDealScreen> {
+  HomeServices service = HomeServices();
+  List<Product>? products;
+
+  fetchByCategoryProducts({required String category}) async {
+    products = await service.fetchCategoryProduct(
+        category: category, context: context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    fetchByCategoryProducts(category: widget.category);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,31 +56,37 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
             ),
           ),
           preferredSize: const Size.fromHeight(70)),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            alignment: Alignment.topLeft,
-            child: Text(
-              'Keep shopping for ${widget.category}',
-              style: const TextStyle(color: Colors.black),
-            ),
-          ),
-          SizedBox(
-            height: 170,
-            child: GridView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 1.4,
-                    mainAxisSpacing: 10),
-                itemBuilder: (context, index) {
-                  return const Text("hello");
-                }),
-          )
-        ],
-      ),
+      body: products == null
+          ? const LoaderButton()
+          : products!.isEmpty
+              ? const Center(child: Text("No products found"))
+              : Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Keep shopping for ${widget.category}',
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 170,
+                      child: GridView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: products!.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  childAspectRatio: 1.4,
+                                  mainAxisSpacing: 10),
+                          itemBuilder: (context, index) {
+                            return Text(products![index].name);
+                          }),
+                    )
+                  ],
+                ),
     );
   }
 }
