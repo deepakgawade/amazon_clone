@@ -3,11 +3,22 @@ import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
 import 'package:amazon_clone/features/home/widgets/top_category.dart';
+import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void navigateToSearchScreen({required String searchQuery}) {
+    Navigator.pushNamed(context, SearchScreen.routeName,
+        arguments: searchQuery);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +42,8 @@ class HomeScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         elevation: 4,
                         child: TextFormField(
+                          onFieldSubmitted: ((value) =>
+                              navigateToSearchScreen(searchQuery: value)),
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(top: 10),
                             border: OutlineInputBorder(

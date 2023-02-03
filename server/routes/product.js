@@ -15,4 +15,19 @@ productRouter.get("/api/products", auth, async (req, res) => {
   }
 });
 
+//seaarch product products/search/:searchquery --params
+
+productRouter.get("/api/products/search/:name", auth, async (req, res) => {
+  try {
+    const query = req.params.name;
+    console.log(query);
+    const products = await Product.find({
+      name: { $regex: query, $options: "i" },
+    });
+    res.json({ products: products });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = productRouter;

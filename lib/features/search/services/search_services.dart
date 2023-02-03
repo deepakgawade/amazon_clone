@@ -4,26 +4,25 @@ import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-class HomeServices {
-  Future<List<Product>> fetchCategoryProduct(
-      {required String category, required BuildContext context}) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false).user;
+class SearchService {
+  Future<List<Product>> searchProducts(
+      {required BuildContext context, required String query}) async {
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+
     List<Product> products = [];
     try {
       var response = await Dio().get(
-        '$url/api/products?category=$category',
+        '$url/api/products/search/$query',
         options: Options(
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': userProvider.token,
+            'x-auth-token': user.token,
           },
         ),
       );
-
       dioErrorHandle(
           response: response,
           context: context,

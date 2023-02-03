@@ -1,8 +1,10 @@
 import 'package:amazon_clone/common/widgets/loader_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/features/home/services/home_services.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class CategoryDealScreen extends StatefulWidget {
   static const String routeName = '/category-deal-screen';
@@ -25,13 +27,11 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     fetchByCategoryProducts(category: widget.category);
   }
@@ -74,16 +74,43 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                     SizedBox(
                       height: 170,
                       child: GridView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: products!.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 1,
-                                  childAspectRatio: 1.4,
-                                  mainAxisSpacing: 10),
-                          itemBuilder: (context, index) {
-                            return Text(products![index].name);
-                          }),
+                        itemCount: products!.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          final productData = products![index];
+                          return Column(
+                            children: [
+                              SizedBox(
+                                  height: 140,
+                                  child: SingleProduct(
+                                      imgUrl: productData.images[0])),
+                              SizedBox(
+                                width: 44.w,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        productData.name,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //     icon: const Icon(Icons.delete_outline),
+                                    //     onPressed: () {
+                                    //       deleteProduct(productData, index);
+                                    //     })
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      ),
                     )
                   ],
                 ),
