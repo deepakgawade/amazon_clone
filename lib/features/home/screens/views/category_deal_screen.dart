@@ -3,6 +3,7 @@ import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/features/home/services/home_services.dart';
+import 'package:amazon_clone/features/product_detail/screens/product_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,6 +24,11 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
     products = await service.fetchCategoryProduct(
         category: category, context: context);
     setState(() {});
+  }
+
+  void navigateToProductScreen({required Product product}) {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+        arguments: product);
   }
 
   @override
@@ -80,34 +86,38 @@ class _CategoryDealScreenState extends State<CategoryDealScreen> {
                                 crossAxisCount: 2),
                         itemBuilder: (context, index) {
                           final productData = products![index];
-                          return Column(
-                            children: [
-                              SizedBox(
-                                  height: 140,
-                                  child: SingleProduct(
-                                      imgUrl: productData.images[0])),
-                              SizedBox(
-                                width: 44.w,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        productData.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
+                          return GestureDetector(
+                            onTap: () =>
+                                navigateToProductScreen(product: productData),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    height: 140,
+                                    child: SingleProduct(
+                                        imgUrl: productData.images[0])),
+                                SizedBox(
+                                  width: 44.w,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          productData.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
                                       ),
-                                    ),
-                                    // IconButton(
-                                    //     icon: const Icon(Icons.delete_outline),
-                                    //     onPressed: () {
-                                    //       deleteProduct(productData, index);
-                                    //     })
-                                  ],
-                                ),
-                              )
-                            ],
+                                      // IconButton(
+                                      //     icon: const Icon(Icons.delete_outline),
+                                      //     onPressed: () {
+                                      //       deleteProduct(productData, index);
+                                      //     })
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           );
                         },
                       ),

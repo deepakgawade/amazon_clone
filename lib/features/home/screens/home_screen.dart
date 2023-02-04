@@ -5,6 +5,7 @@ import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
 import 'package:amazon_clone/features/home/widgets/top_category.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home_screen';
@@ -90,17 +91,17 @@ class _HomeScreenState extends State<HomeScreen> {
           preferredSize: const Size.fromHeight(70)),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
-            AddressBox(),
-            SizedBox(
+          children:  [
+            const AddressBox(),
+            const SizedBox(
               height: 10,
             ),
-            TopCategories(),
-            SizedBox(
+            const TopCategories(),
+            const SizedBox(
               height: 10,
             ),
-            CarouselImages(),
-            DealOfDay()
+            CarouselImages(items: GlobalVariables.carouselImages,height: 20.h,fit: BoxFit.cover),
+            const DealOfDay()
           ],
         ),
       ),

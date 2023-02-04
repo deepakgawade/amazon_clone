@@ -3,7 +3,9 @@ import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/account/widgets/single_product.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
+import 'package:amazon_clone/features/product_detail/screens/product_detail.dart';
 import 'package:amazon_clone/features/search/services/search_services.dart';
+import 'package:amazon_clone/features/search/widgets/searched_product.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -20,6 +22,15 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Product>? products;
 
   final SearchService service = SearchService();
+  void navigateToSearchScreen({required String searchQuery}) {
+    Navigator.pushNamed(context, SearchScreen.routeName,
+        arguments: searchQuery);
+  }
+
+  void navigateToProductScreen({required Product product}) {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+        arguments: product);
+  }
 
   void fetchAllProducts() async {
     products = await service.searchProducts(
@@ -55,9 +66,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         borderRadius: BorderRadius.circular(8),
                         elevation: 4,
                         child: TextFormField(
-                          onFieldSubmitted: ((value) => null
-                              //navigateToSearchScreen(searchQuery: value)
-                              ),
+                          onFieldSubmitted: ((value) =>
+                              navigateToSearchScreen(searchQuery: value)),
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(top: 10),
                             border: OutlineInputBorder(
@@ -114,41 +124,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     SizedBox(
                       height: 170,
-                      child: GridView.builder(
+                      child: ListView.builder(
                         itemCount: products!.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
                         itemBuilder: (context, index) {
                           final productData = products![index];
-                          return Column(
-                            children: [
-                              SizedBox(
-                                  height: 140,
-                                  child: SingleProduct(
-                                      imgUrl: productData.images[0])),
-                              SizedBox(
-                                width: 44.w,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        productData.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                    ),
-                                    // IconButton(
-                                    //     icon: const Icon(Icons.delete_outline),
-                                    //     onPressed: () {
-                                    //       deleteProduct(productData, index);
-                                    //     })
-                                  ],
-                                ),
-                              )
-                            ],
+                          return GestureDetector(
+                            onTap: () =>
+                                navigateToProductScreen(product: productData),
+                            child: SearchedProduct(
+                              product: productData,
+                            ),
                           );
                         },
                       ),

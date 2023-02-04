@@ -1,9 +1,15 @@
-import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CarouselImages extends StatefulWidget {
-  const CarouselImages({super.key});
+  final List<String> items;
+  final double height;
+  final BoxFit fit;
+  const CarouselImages(
+      {super.key,
+      required this.items,
+      required this.height,
+      required this.fit});
 
   @override
   State<CarouselImages> createState() => _CarouselImagesState();
@@ -11,21 +17,26 @@ class CarouselImages extends StatefulWidget {
 
 class _CarouselImagesState extends State<CarouselImages> {
   PageController controller = PageController(initialPage: 0);
-  List<Widget> pages = [
-    for (int i = 0; i < GlobalVariables.carouselImages.length; i++)
-      Image.network(
-        GlobalVariables.carouselImages[i],
-        fit: BoxFit.cover,
-        //width: 100.w,
-        height: 20.h,
-      )
-  ];
+  List<Widget> pages = [];
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      for (int i = 0; i < widget.items.length; i++)
+        Image.network(
+          widget.items[i],
+          fit: widget.fit,
+          //width: 100.w,
+          height: 20.h,
+        )
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 100.w,
-      height: 20.h,
+      height: widget.height,
       child: PageView(
         controller: controller,
         scrollDirection: Axis.horizontal,

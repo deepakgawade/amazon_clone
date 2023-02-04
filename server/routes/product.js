@@ -30,4 +30,17 @@ productRouter.get("/api/products/search/:name", auth, async (req, res) => {
   }
 });
 
+// route for rating
+
+productRouter.post("/api/rate-product", auth, async (req, res) => {
+  try {
+    const {id,rating}=req.body;
+
+    
+
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = productRouter;
