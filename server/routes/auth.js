@@ -90,7 +90,9 @@ authRouter.get("/", auth, async (req, res) => {
 });
 
 authRouter.get("/hello-world", (req, res) => {
-  res.json({ hello: "hello Jayant" });
+  const data = req.query;
+  console.log(data);
+  res.json({ hello: "hello " + data.name });
 });
 
 module.exports = authRouter;

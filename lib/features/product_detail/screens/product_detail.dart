@@ -3,6 +3,7 @@ import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
+import 'package:amazon_clone/features/product_detail/services/product_detail_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,6 +19,8 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetailsScreen> {
+  final ProductDetailServices services = ProductDetailServices();
+
   void navigateToSearchScreen({required String searchQuery}) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
@@ -205,7 +208,12 @@ class _ProductDetailsState extends State<ProductDetailsScreen> {
                       color: GlobalVariables.secondaryColor,
                     );
                   },
-                  onRatingUpdate: ((rating) {}))
+                  onRatingUpdate: ((rating) {
+                    services.rateProduct(
+                        context: context,
+                        product: widget.product,
+                        rating: rating);
+                  }))
             ],
           ),
         ),
