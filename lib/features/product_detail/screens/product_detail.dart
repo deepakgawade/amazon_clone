@@ -5,8 +5,10 @@ import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
 import 'package:amazon_clone/features/product_detail/services/product_detail_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
+import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -24,6 +26,27 @@ class _ProductDetailsState extends State<ProductDetailsScreen> {
   void navigateToSearchScreen({required String searchQuery}) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
+  }
+
+  double avgRating = 0;
+  double myrating = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    double totalRating = 0;
+
+    for (int i = 0; i < widget.product.rating!.length; i++) {
+      totalRating += widget.product.rating![i].rating;
+      if (widget.product.rating![i].userId ==
+          Provider.of<UserProvider>(context).user.id) {
+        myrating = widget.product.rating![i].rating;
+      }
+    }
+    if (totalRating != 0) {
+      avgRating = totalRating / widget.product.rating!.length;
+    }
   }
 
   @override

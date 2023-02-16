@@ -25,7 +25,10 @@ _$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
       category: json['category'] as String,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
-      id: json['_id'] as String?,
+      id: json['id'] as String?,
+      rating: (json['rating'] as List<dynamic>?)
+          ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
@@ -36,5 +39,6 @@ Map<String, dynamic> _$$_ProductToJson(_$_Product instance) =>
       'quantity': instance.quantity,
       'category': instance.category,
       'images': instance.images,
-      '_id': instance.id,
+      'id': instance.id,
+      'rating': instance.rating,
     };
