@@ -128,8 +128,8 @@ class _ProductDetailsState extends State<ProductDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(widget.product.id!),
-                    const Stars(
-                      rating: 4,
+                    Stars(
+                      rating: avgRating,
                     )
                   ],
                 ),
