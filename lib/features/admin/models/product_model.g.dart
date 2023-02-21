@@ -25,7 +25,7 @@ _$_Product _$$_ProductFromJson(Map<String, dynamic> json) => _$_Product(
       category: json['category'] as String,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       rating: (json['rating'] as List<dynamic>?)
           ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
           .toList(),

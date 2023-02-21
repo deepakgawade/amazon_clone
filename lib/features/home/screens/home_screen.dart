@@ -1,4 +1,6 @@
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/admin/models/product_model.dart';
+import 'package:amazon_clone/features/home/services/home_services.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
@@ -16,9 +18,29 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeServices services = HomeServices();
+
   void navigateToSearchScreen({required String searchQuery}) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
+  }
+
+  Product? product;
+  void fetchProduct() async {
+    product = await services.fetchProduct(context: context);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    fetchProduct();
+    super.didChangeDependencies();
   }
 
   @override
@@ -91,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
           preferredSize: const Size.fromHeight(70)),
       body: SingleChildScrollView(
         child: Column(
-          children:  [
+          children: [
             const AddressBox(),
             const SizedBox(
               height: 10,
@@ -100,8 +122,15 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 10,
             ),
-            CarouselImages(items: GlobalVariables.carouselImages,height: 20.h,fit: BoxFit.cover),
-            const DealOfDay()
+            CarouselImages(
+                items: GlobalVariables.carouselImages,
+                height: 20.h,
+                fit: BoxFit.cover),
+            product == null
+                ? const Center(child: CircularProgressIndicator())
+                : DealOfDay(
+                    product: product!,
+                  )
           ],
         ),
       ),

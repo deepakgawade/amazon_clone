@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
+import 'package:amazon_clone/features/auth/model/user_model/user_model.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:dio/dio.dart';
 
@@ -37,5 +40,33 @@ class HomeServices {
       showSnackBar(context, '$e');
     }
     return products;
+  }
+
+  Future<Product> fetchProduct({required BuildContext context}) async {
+    final userProvider = Provider.of<UserProvider>(context).user;
+    Product? product;
+    try {
+      var response = await Dio().get(
+        '$url/api/deal-of-day',
+        options: Options(
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.token,
+          },
+        ),
+      );
+
+      dioErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            var data = Product.fromJson(response.data['product']);
+            product = data;
+          });
+    } catch (e) {
+      showSnackBar(context, '$e');
+    }
+
+    return product!;
   }
 }

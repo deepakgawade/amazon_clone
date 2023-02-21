@@ -1,10 +1,12 @@
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/admin/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:sizer/sizer.dart';
 
 class DealOfDay extends StatelessWidget {
-  const DealOfDay({super.key});
+  final Product product;
+  const DealOfDay({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +20,12 @@ class DealOfDay extends StatelessWidget {
             style: TextStyle(fontSize: 20),
           ),
         ),
-        Image.network(
-          'https://images-eu.ssl-images-amazon.com/images/G/31/img22/Wireless/AdvantagePrime/BAU/14thJan/D37196025_IN_WL_AdvantageJustforPrime_Jan_Mob_ingress-banner_1242x450.jpg',
-        ),
+        Image.network(product.images[0]),
         Container(
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.only(top: 10, left: 10, right: 40),
-          child: const Text(
-            '₹ 9999',
+          child: Text(
+            product.price.toString(),
             style: TextStyle(fontSize: 18),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
