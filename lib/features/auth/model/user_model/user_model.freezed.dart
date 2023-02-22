@@ -27,6 +27,7 @@ mixin _$User {
   String get address => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
+  List<dynamic> get cart => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -45,7 +46,8 @@ abstract class $UserCopyWith<$Res> {
       String password,
       String address,
       String type,
-      String token});
+      String token,
+      List<dynamic> cart});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? address = null,
     Object? type = null,
     Object? token = null,
+    Object? cart = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -98,6 +101,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
+      cart: null == cart
+          ? _value.cart
+          : cart // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ) as $Val);
   }
 }
@@ -115,7 +122,8 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String password,
       String address,
       String type,
-      String token});
+      String token,
+      List<dynamic> cart});
 }
 
 /// @nodoc
@@ -134,6 +142,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? address = null,
     Object? type = null,
     Object? token = null,
+    Object? cart = null,
   }) {
     return _then(_$_User(
       id: null == id
@@ -164,6 +173,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
+      cart: null == cart
+          ? _value._cart
+          : cart // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
     ));
   }
 }
@@ -178,7 +191,9 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       required this.password,
       required this.address,
       required this.type,
-      required this.token});
+      required this.token,
+      required final List<dynamic> cart})
+      : _cart = cart;
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -196,10 +211,17 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   final String type;
   @override
   final String token;
+  final List<dynamic> _cart;
+  @override
+  List<dynamic> get cart {
+    if (_cart is EqualUnmodifiableListView) return _cart;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cart);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(id: $id, fullName: $fullName, email: $email, password: $password, address: $address, type: $type, token: $token)';
+    return 'User(id: $id, fullName: $fullName, email: $email, password: $password, address: $address, type: $type, token: $token, cart: $cart)';
   }
 
   @override
@@ -213,7 +235,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('address', address))
       ..add(DiagnosticsProperty('type', type))
-      ..add(DiagnosticsProperty('token', token));
+      ..add(DiagnosticsProperty('token', token))
+      ..add(DiagnosticsProperty('cart', cart));
   }
 
   @override
@@ -229,13 +252,14 @@ class _$_User with DiagnosticableTreeMixin implements _User {
                 other.password == password) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.token, token) || other.token == token));
+            (identical(other.token, token) || other.token == token) &&
+            const DeepCollectionEquality().equals(other._cart, _cart));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, fullName, email, password, address, type, token);
+  int get hashCode => Object.hash(runtimeType, id, fullName, email, password,
+      address, type, token, const DeepCollectionEquality().hash(_cart));
 
   @JsonKey(ignore: true)
   @override
@@ -259,7 +283,8 @@ abstract class _User implements User {
       required final String password,
       required final String address,
       required final String type,
-      required final String token}) = _$_User;
+      required final String token,
+      required final List<dynamic> cart}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -277,6 +302,8 @@ abstract class _User implements User {
   String get type;
   @override
   String get token;
+  @override
+  List<dynamic> get cart;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

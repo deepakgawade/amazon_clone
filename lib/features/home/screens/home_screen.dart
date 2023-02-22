@@ -5,6 +5,7 @@ import 'package:amazon_clone/features/home/widgets/address_box.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_day.dart';
 import 'package:amazon_clone/features/home/widgets/top_category.dart';
+import 'package:amazon_clone/features/product_detail/screens/product_detail.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -29,6 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void fetchProduct() async {
     product = await services.fetchProduct(context: context);
     setState(() {});
+  }
+
+  void navigateToProductdetailsScreeen() {
+    Navigator.pushNamed(context, ProductDetailsScreen.routeName,
+        arguments: product);
   }
 
   @override
@@ -128,9 +134,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover),
             product == null
                 ? const Center(child: CircularProgressIndicator())
-                : DealOfDay(
-                    product: product!,
-                  )
+                : product!.name.isEmpty
+                    ? const Center(child: Text("No product found"))
+                    : GestureDetector(
+                        onTap: navigateToProductdetailsScreeen,
+                        child: DealOfDay(
+                          product: product!,
+                        ),
+                      )
           ],
         ),
       ),

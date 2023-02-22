@@ -28,7 +28,8 @@ class AuthService {
           password: password,
           address: '',
           type: '',
-          token: '');
+          token: '',
+          cart: []);
 
       var response = await Dio().post('$url/api/signup',
           options: Options(headers: <String, String>{
@@ -76,7 +77,8 @@ class AuthService {
           password: password,
           address: '',
           type: '',
-          token: '');
+          token: '',
+          cart: []);
 
       var response = await Dio().post('$url/api/signin',
           options: Options(headers: <String, String>{

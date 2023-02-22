@@ -15,6 +15,7 @@ class User with _$User {
     required String address,
     required String type,
     required String token,
+    required List<dynamic> cart,
 
     //toekn can be added
   }) = _User;

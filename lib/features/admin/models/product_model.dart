@@ -25,7 +25,7 @@ class Product with _$Product {
       required String category,
       required List<String> images,
       String? id,
-      List<Rating>? rating}) = _Product;
+      List<Rating>? ratings}) = _Product;
 
   factory Product.fromJson(Map<String, Object?> json) =>
       _$ProductFromJson(json);
