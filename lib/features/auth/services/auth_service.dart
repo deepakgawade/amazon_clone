@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:developer';
 
@@ -93,12 +95,17 @@ class AuthService {
             SharedPreferences pref = await SharedPreferences.getInstance();
             var data = User.fromJson(response.data);
 
-            // ignore: use_build_context_synchronously
-            Provider.of<UserProvider>(context, listen: false).setuser =
-                response;
+            if (context.mounted) {
+              Provider.of<UserProvider>(context, listen: false).setuser =
+                  response;
+            }
+
             await pref.setString('x-auth-token', data.token);
-            Navigator.pushNamedAndRemoveUntil(
-                context, BottomBar.routeName, (route) => false);
+
+            if (context.mounted) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, BottomBar.routeName, (route) => false);
+            }
           });
     } on DioError catch (e) {
       if (e.response != null) {

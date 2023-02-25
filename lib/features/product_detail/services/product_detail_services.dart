@@ -4,6 +4,7 @@ import 'package:amazon_clone/constants/error_handling.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/constants/utils.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
+import 'package:amazon_clone/features/auth/model/user_model/user_model.dart';
 import 'package:amazon_clone/providers/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,12 +27,13 @@ class ProductDetailServices {
           ),
           data: jsonEncode({'id': product.id, 'rating': rating}));
 
+      // ignore: use_build_context_synchronously
       dioErrorHandle(
           response: response,
           context: context,
           onSuccess: () {
             showSnackBar(context, 'Thanks for your rating');
-            Navigator.pop(context);
+            if (context.mounted) Navigator.pop(context);
           });
     } catch (e) {
       showSnackBar(context, 'Errro:$e');

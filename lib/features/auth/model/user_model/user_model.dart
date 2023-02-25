@@ -1,3 +1,4 @@
+import 'package:amazon_clone/features/auth/model/user_model/cart_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
@@ -15,7 +16,7 @@ class User with _$User {
     required String address,
     required String type,
     required String token,
-    required List<dynamic> cart,
+    List<CartModel>? cart,
 
     //toekn can be added
   }) = _User;

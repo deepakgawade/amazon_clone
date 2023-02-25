@@ -27,7 +27,7 @@ mixin _$User {
   String get address => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get token => throw _privateConstructorUsedError;
-  List<dynamic> get cart => throw _privateConstructorUsedError;
+  List<CartModel>? get cart => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +47,7 @@ abstract class $UserCopyWith<$Res> {
       String address,
       String type,
       String token,
-      List<dynamic> cart});
+      List<CartModel>? cart});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? address = null,
     Object? type = null,
     Object? token = null,
-    Object? cart = null,
+    Object? cart = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -101,10 +101,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
-      cart: null == cart
+      cart: freezed == cart
           ? _value.cart
           : cart // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<CartModel>?,
     ) as $Val);
   }
 }
@@ -123,7 +123,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String address,
       String type,
       String token,
-      List<dynamic> cart});
+      List<CartModel>? cart});
 }
 
 /// @nodoc
@@ -142,7 +142,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
     Object? address = null,
     Object? type = null,
     Object? token = null,
-    Object? cart = null,
+    Object? cart = freezed,
   }) {
     return _then(_$_User(
       id: null == id
@@ -173,10 +173,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
           ? _value.token
           : token // ignore: cast_nullable_to_non_nullable
               as String,
-      cart: null == cart
+      cart: freezed == cart
           ? _value._cart
           : cart // ignore: cast_nullable_to_non_nullable
-              as List<dynamic>,
+              as List<CartModel>?,
     ));
   }
 }
@@ -192,7 +192,7 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       required this.address,
       required this.type,
       required this.token,
-      required final List<dynamic> cart})
+      final List<CartModel>? cart})
       : _cart = cart;
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
@@ -211,12 +211,14 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   final String type;
   @override
   final String token;
-  final List<dynamic> _cart;
+  final List<CartModel>? _cart;
   @override
-  List<dynamic> get cart {
+  List<CartModel>? get cart {
+    final value = _cart;
+    if (value == null) return null;
     if (_cart is EqualUnmodifiableListView) return _cart;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cart);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -284,7 +286,7 @@ abstract class _User implements User {
       required final String address,
       required final String type,
       required final String token,
-      required final List<dynamic> cart}) = _$_User;
+      final List<CartModel>? cart}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -303,7 +305,7 @@ abstract class _User implements User {
   @override
   String get token;
   @override
-  List<dynamic> get cart;
+  List<CartModel>? get cart;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

@@ -2,6 +2,7 @@ import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
 import 'package:amazon_clone/features/admin/models/product_model.dart';
+import 'package:amazon_clone/features/cart/services/cart_services.dart';
 import 'package:amazon_clone/features/home/widgets/carousel_images.dart';
 import 'package:amazon_clone/features/product_detail/services/product_detail_services.dart';
 import 'package:amazon_clone/features/search/screens/search_screen.dart';
@@ -22,10 +23,15 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetailsScreen> {
   final ProductDetailServices services = ProductDetailServices();
+  final CartServices cartServices = CartServices();
 
   void navigateToSearchScreen({required String searchQuery}) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);
+  }
+
+  void addToCart() {
+    cartServices.addToCart(context: context, product: widget.product);
   }
 
   double avgRating = 0;
@@ -201,7 +207,7 @@ class _ProductDetailsState extends State<ProductDetailsScreen> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: CustomButton(
-                  onPressed: () {},
+                  onPressed: addToCart,
                   text: 'Add to Cart',
                   color: const Color.fromRGBO(254, 216, 19, 1),
                   textColor: Colors.black,
