@@ -1,5 +1,6 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/address/screens/address_screen.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_item.dart';
 import 'package:amazon_clone/features/cart/widgets/cart_sub_total.dart';
 import 'package:amazon_clone/features/home/widgets/address_box.dart';
@@ -98,7 +99,9 @@ class _CartScreenState extends State<CartScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AddressScreen.routeName);
+                  },
                   text: 'Proceed to buy',
                 ),
               ),
