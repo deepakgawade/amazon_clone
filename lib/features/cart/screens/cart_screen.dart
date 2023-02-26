@@ -22,6 +22,10 @@ class _CartScreenState extends State<CartScreen> {
         arguments: searchQuery);
   }
 
+  void navigateToAddressScreen() {
+    Navigator.pushNamed(context, AddressScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     final userprovider = context.watch<UserProvider>();
@@ -99,9 +103,7 @@ class _CartScreenState extends State<CartScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: CustomButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, AddressScreen.routeName);
-                  },
+                  onPressed: navigateToAddressScreen,
                   text: 'Proceed to buy',
                 ),
               ),

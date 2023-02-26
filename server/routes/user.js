@@ -38,7 +38,7 @@ userRouter.post("/api/add-to-cart", auth, async (req, res) => {
 
 userRouter.delete("/api/remove-from-cart/:id", auth, async (req, res) => {
   try {
-    const id  = req.params.id;
+    const id = req.params.id;
     const product = await Product.findById(id);
     let user = await User.findById(req.user);
     for (let i = 0; i < user.cart.length; i++) {
