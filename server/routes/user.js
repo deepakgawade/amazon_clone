@@ -58,4 +58,32 @@ userRouter.delete("/api/remove-from-cart/:id", auth, async (req, res) => {
   }
 });
 
+//save address
+userRouter.post("/api/address", auth, async (req, res) => {
+  try {
+    const { address } = req.body;
+    let user = await User.findById(req.user);
+
+    user.address = address;
+    user = await user.save();
+    res.json({ ...user._doc, token: req.token });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+//save order once paymnet has been made
+
+userRouter.post("/api/orders", auth, async (req, res) => {
+  try {
+    const {cart, address,totalPrice} = req.body;
+    
+
+    const 
+
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = userRouter;

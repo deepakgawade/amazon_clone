@@ -22,6 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   List<Product>? products;
 
   final SearchService service = SearchService();
+  
   void navigateToSearchScreen({required String searchQuery}) {
     Navigator.pushNamed(context, SearchScreen.routeName,
         arguments: searchQuery);

@@ -77,15 +77,17 @@ class AdminServices {
           },
         ),
       );
-      dioErrorHandle(
-          response: response,
-          context: context,
-          onSuccess: () {
-            var data = Products.fromJson(response.data);
-            for (int i = 0; i < data.products.length; i++) {
-              products.add(data.products[i]);
-            }
-          });
+      if (context.mounted) {
+        dioErrorHandle(
+            response: response,
+            context: context,
+            onSuccess: () {
+              var data = Products.fromJson(response.data);
+              for (int i = 0; i < data.products.length; i++) {
+                products.add(data.products[i]);
+              }
+            });
+      }
 
       return products;
     } catch (e) {

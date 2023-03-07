@@ -23,7 +23,14 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void navigateToAddressScreen() {
-    Navigator.pushNamed(context, AddressScreen.routeName);
+    final user = Provider.of<UserProvider>(context, listen: false).user;
+    double total = 0;
+    for (int i = 0; i < user.cart!.length; i++) {
+      double price = user.cart![i].quantity * user.cart![i].product.price;
+      total = total + price;
+    }
+    Navigator.pushNamed(context, AddressScreen.routeName,
+        arguments: total.toString());
   }
 
   @override
