@@ -76,11 +76,7 @@ userRouter.post("/api/address", auth, async (req, res) => {
 
 userRouter.post("/api/orders", auth, async (req, res) => {
   try {
-    const {cart, address,totalPrice} = req.body;
-    
-
-    const 
-
+    const { cart, address, totalPrice } = req.body;
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
