@@ -77,6 +77,17 @@ userRouter.post("/api/address", auth, async (req, res) => {
 userRouter.post("/api/orders", auth, async (req, res) => {
   try {
     const { cart, address, totalPrice } = req.body;
+    let products = [];
+    for (let i = 0; i < cart.length; i++) {
+      let product = await Product.findById(cart[i].product._id);
+      if (product.quantity >= cart[i].quantity) {
+        products.quantity -= cart[i].quantity;
+        product.push({ product, quantity: cart[i].quantity });
+        await product.save();
+      } else {
+        request.json({ msg: `${product.name} is out of stock!` });
+      }
+    }
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
